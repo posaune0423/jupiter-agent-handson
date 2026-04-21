@@ -194,19 +194,134 @@ export JUPITER_API_KEY="your api key"
 
 ---
 
+## OpenClawにagentを追加
+
+```bash
+openclaw agents add jupiter-test-agent \
+          --workspace ./examples/openclaw \
+          --model openai-codex/gpt-5.4 \
+          --non-interactive
+```
+
 ---
 
-<!-- デモで見せたpromptとかで実際に生成されたcodeを見ていく -->
+## OpenClawをworkspace内で起動
 
-## Swap
+```bash
+cd ./examples/openclaw
+
+openclaw tui
+```
 
 ---
 
-## Lend
+## OpenClaw経由でswapを実行する
+
+Prompt:
+
+```text
+Jupiter demo wallet の address と SOL / USDC balance を確認して。
+秘密鍵や .env.keys は表示しないで。
+```
+
+Command:
+
+```bash
+deno task wallet
+```
 
 ---
 
-## Recurring
+## Swap: orderを取得する
+
+Prompt:
+
+```text
+0.001 SOL を USDC に swap する order を取得して。
+まだ署名・送信はしないで。
+```
+
+Command:
+
+```bash
+deno task swap
+```
+
+Execute:
+
+```bash
+deno task swap:execute
+```
+
+---
+
+## Lend: Earn deposit transactionを取得する
+
+Prompt:
+
+```text
+1 USDC を Jupiter Earn に deposit する transaction を取得して。
+実行前に wallet と amount を確認して。
+```
+
+Command:
+
+```bash
+deno task lend
+```
+
+Execute:
+
+```bash
+deno task lend:execute
+```
+
+---
+
+## DCA / Recurring orderを作る
+
+Prompt:
+
+```text
+104 USDC を SOL に、2回・1日間隔で買う recurring order transaction を作って。
+Jupiter Recurring の minimum を満たしているか説明して。
+```
+
+Command:
+
+```bash
+deno task dca
+```
+
+Execute:
+
+```bash
+deno task dca:execute
+```
+
+---
+
+
+## cronでposition check & report生成
+
+Prompt:
+
+```text
+現在の wallet balance と demo default を Markdown report にして。
+cron で定期実行できる形にして。
+```
+
+Command:
+
+```bash
+deno task report
+```
+
+Cron example:
+
+```cron
+0 * * * * cd /path/to/openclaw && deno task report >> reports/jupiter.md
+```
 
 ---
 
@@ -221,13 +336,40 @@ export JUPITER_API_KEY="your api key"
 
 <!-- header: Section 5 -->
 
-- 秘密鍵の扱い
-  - `dotenvx`, `deno`
-- error handling
-- Latency and Server Locations
-  - Asia-Pacific: Singapore (ap-southeast-1) or Tokyo (ap-northeast-1)
-  - Europe: Frankfurt (eu-central-1)
-  - Americas: Virginia (us-east-1), Oregon (us-west-2), or São Paulo (sa-east-1)
+1. 秘密鍵の扱い
+2. Error Handling
+3. Latency and Server Locations
+
+---
+
+## 秘密鍵の扱い
+
+- `.env`などのファイルに書くと最近のAIはgitignoreしたりしても結構中身を普通に読んでくる
+- `dotenvx`で暗号化して保存し実行時に復号化
+- `cli.json`などでpermissionを設定
+  - ```json
+    "deny": [
+          "Bash(dotenvx get *)",
+          "Bash(dotenvx decrypt *)",
+          "Read(.env.keys)",
+          "Read(/**/.env.keys)",
+          "Write(.env.keys)",
+          "Write(/**/.env.keys)"
+        ]
+    ```
+
+---
+
+## Error Handling
+
+
+---
+
+## Latency and Server Locations
+
+- **Asia-Pacific**: Singapore (ap-southeast-1) or Tokyo (ap-northeast-1)
+- **Europe**: Frankfurt (eu-central-1)
+- **Americas**: Virginia (us-east-1), Oregon (us-west-2), or São Paulo (sa-east-1)
 
 ---
 

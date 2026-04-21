@@ -75,3 +75,9 @@ DOTENV_PRIVATE_KEY_PRODUCTION="..." dotenvx run -- <command>
 - Committing or pushing `.env.keys`
 - Committing unencrypted secrets (API keys, passwords, tokens, etc.)
 - Logging, hardcoding, or commenting private keys in source code
+
+## Agent / AI (mandatory)
+
+- **Do not run `dotenvx get`** in the terminal (with or without a variable name). It prints decrypted secrets and leaks them into chat transcripts and logs.
+- **Do not** suggest workarounds that achieve the same effect for the agent (for example piping `dotenvx get` into other commands) solely to surface secret values to the session.
+- For tasks that need env at runtime, use **`dotenvx run -- <command>`** so decryption stays inside the child process, or ask the human to run `dotenvx get` locally and share only non-sensitive information if debugging requires it.

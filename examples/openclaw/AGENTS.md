@@ -53,6 +53,9 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - Don't run destructive commands without asking.
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
+- Never print `PRIVATE_KEY`, `.env.keys`, `.env`, or decrypted secret values.
+- Run dry-run Jupiter tasks before any execute task.
+- Only run `deno task swap:execute`, `deno task lend:execute`, or `deno task dca:execute` after the human explicitly confirms the exact action, token pair, and amount.
 
 ## External vs Internal
 
@@ -71,6 +74,25 @@ Ask first:
 ## Tools
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
+
+## Jupiter Workshop Demos
+
+This workspace includes runnable Jupiter demos under `scripts/`.
+
+- `deno task wallet`: derive the configured wallet address and check SOL/USDC balances.
+- `deno task swap`: request a Swap order only.
+- `deno task lend`: request a Jupiter Earn deposit transaction only.
+- `deno task dca`: request a Recurring order transaction only.
+- `deno task report`: print a Markdown wallet/demo position report for manual checks or cron.
+
+The non-execute tasks are the default path. Treat execute tasks as real money operations.
+
+Before proposing a transaction:
+
+1. Run `deno task wallet`.
+2. Confirm the wallet has enough SOL for fees and enough input token for the demo.
+3. Explain the exact action in one short sentence.
+4. Ask for explicit confirmation before running the matching `*:execute` task.
 
 ## Make It Yours
 
