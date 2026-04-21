@@ -1,0 +1,14 @@
+.DS_Store
+
+# dotenvx
+.env
+.env.keys
+
+# OpenClaw workspace runtime (memory is personal, not shared)
+memory/*.md
+MEMORY.md
+
+# Secrets
+**/*.key
+**/*.pem
+**/secrets*

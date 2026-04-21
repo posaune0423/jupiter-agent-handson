@@ -324,7 +324,7 @@ section[data-theme='light'] .shiki span {
 }
 
 section.lead h1 {
-  font-size: 2.15em;
+  font-size: 1.95em;
   margin-bottom: 0.35em;
 }
 
@@ -355,7 +355,7 @@ section.section-divider h1 {
 section.section-divider h2 {
   font-size: 1.55em;
   line-height: 1.18;
-  max-width: 11em;
+  max-width: 22em;
 }
 
 section.section-divider p {
@@ -363,46 +363,19 @@ section.section-divider p {
   color: rgba(255, 255, 255, 0.68);
 }
 
-.hero-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: end;
-  margin-top: 2.4rem;
+blockquote {
+  border-left: 4px solid var(--jupiter-turquoise);
+  background: rgba(94, 233, 181, 0.08);
+  border-radius: 8px;
+  padding: 0.6em 1em;
+  margin: 0.6em 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-style: italic;
 }
 
-.diagram {
-  display: block;
-  width: auto;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1.2rem;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18);
-}
-
-section.architecture-slide {
-  display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
-  grid-template-areas:
-    'title title'
-    'diagram cards';
-  column-gap: 0.95rem;
-  row-gap: 0.5rem;
-  align-content: start;
-}
-
-section.architecture-slide > h2 {
-  grid-area: title;
-}
-
-section.architecture-slide > .diagram {
-  grid-area: diagram;
-  width: 100% !important;
-  max-width: 100%;
-  margin-top: 0.45rem;
+blockquote p {
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
 }
 
 .glass-card {
@@ -410,20 +383,6 @@ section.architecture-slide > .diagram {
   border-radius: 22px;
   background: rgba(12, 16, 24, 0.78);
   padding: 1rem 1.15rem;
-}
-
-.card-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.card-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.3rem;
 }
 
 .kicker {
@@ -438,6 +397,11 @@ section.architecture-slide > .diagram {
   margin: 0 0 0.55rem;
   font-size: 0.86em;
   color: var(--jupiter-accent);
+}
+
+.glass-card ul {
+  margin: 0;
+  padding-left: 1rem;
 }
 
 .glass-card p,
@@ -458,154 +422,6 @@ section.architecture-slide > .diagram {
   vertical-align: top;
 }
 
-.tiny-table {
-  font-size: 0.5em;
-}
-
-.tiny-table th,
-.tiny-table td {
-  padding: 0.34rem 0.42rem;
-}
-
-.code-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
-  margin-top: 1rem;
-}
-
-.code-grid.two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.code-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 22px;
-  background: rgba(12, 16, 24, 0.82);
-  padding: 0.9rem;
-}
-
-.code-card h4 {
-  margin: 0 0 0.45rem;
-  font-size: 0.8em;
-  color: var(--jupiter-accent);
-}
-
-.code-card .label {
-  display: inline-block;
-  margin-bottom: 0.55rem;
-  font-size: 0.46em;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.code-card pre {
-  margin: 0;
-  font-size: 0.39em;
-  line-height: 1.28;
-}
-
-section.code-triple {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-areas:
-    'title title title'
-    'note note note'
-    's1 s2 s3'
-    'h1 h2 h3'
-    'c1 c2 c3';
-  column-gap: 0.95rem;
-  row-gap: 0.35rem;
-  align-content: start;
-}
-
-section.code-triple > h2 {
-  grid-area: title;
-}
-
-section.code-triple > .note-banner {
-  grid-area: note;
-  margin-top: 0.2rem;
-}
-
-section.code-triple > h3,
-section.code-double > h3 {
-  margin: 0;
-  font-size: 0.35em;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
-}
-
-section.code-triple > h4,
-section.code-double > h4,
-section.code-check > h3 {
-  margin: 0;
-  font-size: 0.7em;
-  color: var(--jupiter-accent);
-}
-
-section.code-triple > pre,
-section.code-double > pre,
-section.code-check > pre {
-  margin: 0;
-  font-size: 0.42em;
-  line-height: 1.28;
-}
-
-section.code-triple > h3:nth-of-type(1) { grid-area: s1; }
-section.code-triple > h3:nth-of-type(2) { grid-area: s2; }
-section.code-triple > h3:nth-of-type(3) { grid-area: s3; }
-section.code-triple > h4:nth-of-type(1) { grid-area: h1; }
-section.code-triple > h4:nth-of-type(2) { grid-area: h2; }
-section.code-triple > h4:nth-of-type(3) { grid-area: h3; }
-section.code-triple > pre:nth-of-type(1) { grid-area: c1; }
-section.code-triple > pre:nth-of-type(2) { grid-area: c2; }
-section.code-triple > pre:nth-of-type(3) { grid-area: c3; }
-
-section.code-double {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-areas:
-    'title title'
-    'note note'
-    'h1 h2'
-    'c1 c2'
-    'n1 n2';
-  column-gap: 1rem;
-  row-gap: 0.45rem;
-  align-content: start;
-}
-
-section.code-double > h2 { grid-area: title; }
-section.code-double > .note-banner:first-of-type { grid-area: note; margin-top: 0.15rem; }
-section.code-double > h3:nth-of-type(1) { grid-area: h1; }
-section.code-double > h3:nth-of-type(2) { grid-area: h2; }
-section.code-double > pre:nth-of-type(1) { grid-area: c1; }
-section.code-double > pre:nth-of-type(2) { grid-area: c2; }
-section.code-double > .note-banner:nth-of-type(2) { grid-area: n1; margin-top: 0; }
-section.code-double > .note-banner:nth-of-type(3) { grid-area: n2; margin-top: 0; }
-
-section.code-check {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-areas:
-    'title title'
-    'lefthead right'
-    'code right'
-    'note right';
-  column-gap: 1rem;
-  row-gap: 0.5rem;
-  align-content: start;
-}
-
-section.code-check > h2 { grid-area: title; }
-section.code-check > h3 { grid-area: lefthead; }
-section.code-check > pre { grid-area: code; }
-section.code-check > .note-banner { grid-area: note; margin-top: 0; }
-section.code-check > .glass-card { grid-area: right; }
-
 .note-banner {
   margin-top: 0.9rem;
   border: 1px solid rgba(94, 233, 181, 0.24);
@@ -613,179 +429,6 @@ section.code-check > .glass-card { grid-area: right; }
   background: rgba(8, 61, 44, 0.28);
   padding: 0.45rem 0.68rem;
   font-size: 0.49em;
-}
-
-.emoji-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.38rem;
-  white-space: nowrap;
-}
-
-.resource-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.35rem;
-}
-
-.resource-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 22px;
-  background: rgba(12, 16, 24, 0.78);
-  padding: 1rem 1.1rem;
-  min-height: 8.9rem;
-}
-
-.resource-card h4 {
-  margin: 0 0 0.7rem;
-  font-size: 0.82em;
-}
-
-.resource-card ul {
-  margin: 0;
-  padding-left: 1.1rem;
-}
-
-.resource-card li {
-  font-size: 0.56em;
-  line-height: 1.52;
-  margin-bottom: 0.24rem;
-}
-
-.closing-note {
-  margin-top: 0.9rem;
-  text-align: center;
-}
-
-.closing-note p:first-child {
-  font-size: 0.88em;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-}
-
-.closing-note p:last-child {
-  font-size: 0.58em;
-  color: rgba(255, 255, 255, 0.84);
-}
-
-section.architecture-slide .card-grid-3 {
-  grid-area: cards;
-  grid-template-columns: 1fr;
-  gap: 0.65rem;
-  margin-top: 0.45rem;
-}
-
-section.architecture-slide .glass-card {
-  padding: 0.78rem 0.92rem;
-}
-
-section.architecture-slide .kicker {
-  margin-bottom: 0.34rem;
-  font-size: 0.32em;
-}
-
-section.architecture-slide .glass-card h4 {
-  font-size: 0.72em;
-  margin-bottom: 0.35rem;
-}
-
-section.architecture-slide .glass-card p {
-  font-size: 0.52em;
-  line-height: 1.35;
-}
-
-section.gotchas-slide .card-grid-2 {
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 0.8rem;
-  margin-top: 0.9rem;
-}
-
-section.gotchas-slide .glass-card {
-  padding: 0.82rem 0.94rem;
-}
-
-section.gotchas-slide .glass-card h4 {
-  font-size: 0.67em;
-  line-height: 1.18;
-  margin-bottom: 0.45rem;
-}
-
-section.gotchas-slide .glass-card ul {
-  margin: 0;
-  padding-left: 0.95rem;
-}
-
-section.gotchas-slide .glass-card li {
-  font-size: 0.49em;
-  line-height: 1.3;
-  margin-bottom: 0.1rem;
-}
-
-section.gotchas-slide .tiny-table {
-  font-size: 0.425em;
-  line-height: 1.12;
-}
-
-section.gotchas-slide .tiny-table th,
-section.gotchas-slide .tiny-table td {
-  padding: 0.22rem 0.28rem;
-}
-
-section.retry-slide {
-  display: grid;
-  grid-template-columns: 1.04fr 0.96fr;
-  grid-template-areas:
-    'title title'
-    'lefthead right'
-    'code right'
-    'note right';
-  column-gap: 1rem;
-  row-gap: 0.45rem;
-  align-content: start;
-}
-
-section.retry-slide > h2 { grid-area: title; }
-section.retry-slide > h3 {
-  grid-area: lefthead;
-  margin: 0;
-  font-size: 0.7em;
-  color: var(--jupiter-accent);
-}
-
-section.retry-slide > pre {
-  grid-area: code;
-  margin: 0;
-  font-size: 0.37em;
-  line-height: 1.18;
-}
-
-section.retry-slide > .note-banner {
-  grid-area: note;
-  margin-top: 0;
-  font-size: 0.44em;
-}
-
-section.retry-slide > .glass-card {
-  grid-area: right;
-  padding: 0.88rem 0.96rem;
-  align-self: stretch;
-}
-
-section.retry-slide > .glass-card h4 {
-  font-size: 0.66em;
-  margin-bottom: 0.45rem;
-}
-
-section.retry-slide > .glass-card ul {
-  margin: 0;
-  padding-left: 1rem;
-}
-
-section.retry-slide > .glass-card li {
-  font-size: 0.5em;
-  line-height: 1.34;
-  margin-bottom: 0.1rem;
 }
 
 pre .hljs-link {
@@ -804,4 +447,23 @@ pre .hljs-property,
 pre .hljs-attr,
 pre .hljs-title.class_.inherited__ {
   color: #52d49a !important;
+}
+
+/* Why Jupiter: inline number styling */
+.why-num {
+  display: inline-block;
+  font-size: 1.4em;
+  font-weight: 700;
+  color: var(--jupiter-accent);
+  line-height: 1;
+  margin-right: 0.25rem;
+  vertical-align: baseline;
+  opacity: 0.3;
+}
+
+.why-title {
+  display: inline;
+  font-size: 0.72em;
+  font-weight: 600;
+  color: #ffffff;
 }

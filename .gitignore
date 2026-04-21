@@ -1,10 +1,22 @@
 .DS_Store
-.env
-.env.*
-!.env.example
 
+# dotenvx - never commit private decryption keys or plaintext env
+.env.keys
+.env
+examples/*/.env.keys
+examples/*/.env
+
+# Python
 __pycache__/
 *.py[cod]
 
+# Agent memory
 .agents/memory/
 .agents/tmp/
+
+# OpenClaw workspace runtime files
+examples/openclaw/memory/*.md
+examples/openclaw/MEMORY.md
+**/*.key
+**/*.pem
+**/secrets*

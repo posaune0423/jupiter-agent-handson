@@ -1,9 +1,3 @@
----
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
-globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
-alwaysApply: false
----
-
 # Agent Guidelines
 
 - please do not eslint-disable, just fix the implementation
@@ -80,4 +74,4 @@ Use these docs to align decisions with product goals, tech stack, and structure.
 - **Simplicity First**: Make every change as simple as possible. Impact minimal code. YAGNI, KISS, DRY. No backward-compat shims or fallback paths unless they come free without adding cyclomatic complexity.
 - **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
 - **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
-- **Video Is Canon**: The reference video is the ultimate authority. If implementation looks different from the video, the implementation is wrong.
+- **Clear & descriptive Comment**: 生成コードの流れやstepを明確にしわかりやすいコメントを書いてください。

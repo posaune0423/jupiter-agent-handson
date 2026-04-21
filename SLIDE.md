@@ -1,403 +1,469 @@
 ---
 marp: true
 theme: jupiter
+paginate: true
 style: @import url('https://unpkg.com/tailwindcss@^2/dist/utilities.min.css');
 backgroundImage: url(./assets/bg.png)
-footer: 'Clawathon Tokyo Edition  |  2026'
+footer: '© Jupiter × SuzuPay  |  Clawathon Tokyo Edition'
 ---
 
 <!-- _class: lead -->
-<!-- header: "" -->
 
-# Jupiter Agent Skills で拓く
+# ビルダーのための<br/>Jupiter ワークショップ
 
-## AI × DeFi の最前線
+<div class="text-xl">
 
-### ハッカソンで使える Ultra Swap 最小実装 & エラーハンドリング完全ガイド
+**Agent Skillsで爆速開発**
 
-<div class="hero-meta">
-  <div>
-    <p class="text-2xl font-semibold mb-3">Clawathon Tokyo Edition 2026</p>
-    <p class="text-xl text-gray-300">Presented by SuzuPay × Jupiter</p>
-  </div>
-  <div class="text-right">
-    <p class="text-lg text-gray-300">5 min intro + demos + hands-on + gotchas</p>
-  </div>
 </div>
 
 ---
 
 <!-- header: Opening -->
 
-## 本日のアジェンダ
+### 自己紹介
+
+<div class="grid grid-cols-2 gap-x-14 gap-y-6 items-center w-full max-w-full mx-auto mt-8 mb-4 px-6 box-border">
+
+<div class="flex justify-center items-center min-w-0 pr-2">
+
+<img src="assets/profile-picture.png" alt="asuma" class="block w-64 h-64 max-w-full flex-shrink-0 object-cover rounded-full border-0 shadow-none outline-none" />
+
+</div>
+
+<div class="min-w-0 pl-4 pr-2 text-left text-2xl leading-relaxed tracking-tight">
+
+- Name: **asuma**
+- Role: **Co-Founder / CTO [@DaikoAI](https://daiko.ai)**
+- Links:
+  - [posaune0423.com](https://posaune0423.com)
+  - 𝕏: [@0xasuma_jp](https://x.com/0xasuma_jp)
+  - Github: [@posaune0423](https://github.com/posaune0423)
+  - Linkedin: [@posaune0423](https://linkedin.com/in/posaune0423)
+
+</div>
+
+</div>
+
+---
+
+## 本日の流れ
 
 <table class="compact-table">
   <thead>
     <tr>
-      <th>Part</th>
+      <th>Section</th>
       <th>Time</th>
-      <th>Topic</th>
-      <th>What you'll get</th>
+      <th>内容</th>
+      <th>目的</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>①</td><td>5分</td><td>オープニング</td><td>ゴール・アジェンダ / Jupiter エコシステム概要</td></tr>
-    <tr><td>②</td><td>10分</td><td>【デモ先行】AI × DeFi の世界</td><td>AI エージェントによる自律トレード実演 / Why Jupiter?</td></tr>
-    <tr><td>③</td><td>10分</td><td>DeFi 課題解決 & Agent Skills アーキテクチャ</td><td>複雑な UX を AI が解決 / <code>SKILL.md</code> の仕組み</td></tr>
-    <tr><td>④</td><td>20分</td><td>【ハンズオン】最小実装</td><td>Ultra Swap / DCA 自動化 / Lend 組み込み</td></tr>
-    <tr><td>⑤</td><td>10分</td><td>エラーハンドリング & Gotchas</td><td>TTL・冪等性・Rate Limit・リトライ戦略</td></tr>
-    <tr><td>⑥</td><td>5分</td><td>Q&A・クロージング</td><td>質疑応答 / SuzuPay & Jupiter からの案内</td></tr>
+    <tr><td>1</td><td>5 min</td><td>Jupiter API / Why Jupiter</td><td>Jupiterの強みを理解する</td></tr>
+    <tr><td>2</td><td>5 min</td><td>Jupiter Agent Skills とは</td><td>Jupiter Agent Skills が開発をどう加速するか理解する</td></tr>
+    <tr><td>3</td><td>20 min</td><td>デモ</td><td>Agent に実装を依頼する流れを見る</td></tr>
+    <tr><td>4</td><td>15 min</td><td>最小実装ハンズオン</td><td>Swap / Lend / Recurring の基本形を掴む</td></tr>
+    <tr><td>5</td><td>10 min</td><td>実務的な注意点 / Advanced Topics</td><td>error handling と production hardening の要点を押さえる</td></tr>
+    <tr><td>6</td><td>5 min</td><td>Q&A / Closing</td><td>質疑応答と参考資料の確認</td></tr>
   </tbody>
 </table>
 
 ---
 
-<!-- header: Opening -->
-
-## Jupiter エコシステム: 開発者にとっての立ち位置
-
-<img src="./assets/jupiter-ecosystem-map.svg" alt="Jupiter ecosystem map" class="diagram" style="width: 780px;" />
+## Jupiter API
 
 ---
 
-<!-- _class: section-divider -->
-<!-- header: "" -->
-
-# SECTION 1
-
-## 【デモ先行】
-
-### Jupiter Agent Skills が実現する AI × DeFi の世界
-
-<p class="mt-10 text-2xl text-gray-300">10 min</p>
+<!-- _backgroundImage: url(./assets/jup-ecosystem.png) -->
+<!-- _backgroundSize: cover -->
+<!-- _backgroundPosition: center 80% -->
 
 ---
 
-<!-- _class: flow-slide -->
-<!-- header: Section 1 -->
-
-## 【実演デモ】自然言語から Jupiter API が動く世界
-
-<img src="./assets/jupiter-natural-language-flow.svg" alt="Natural language to Jupiter API flow" class="diagram" style="width: 980px;" />
-
----
-
-<!-- header: Section 1 -->
-
-## デモ
-
-<div class="h-full flex items-center justify-center pt-12">
-  <div class="rounded-3xl border border-dashed border-white/30 bg-black/15 px-14 py-16 text-center max-w-4xl">
-    <p class="text-sm uppercase tracking-[0.3em] text-gray-400 mb-4">Live Demo Placeholder</p>
-    <p class="text-4xl font-semibold mb-4">自然言語から Jupiter API までの実演</p>
-    <p class="text-2xl text-gray-300">このスライドは、当日デモまたは画面共有を差し込むための間スライドとして維持します。</p>
-  </div>
-</div>
-
----
-
-<!-- header: Section 1 -->
-
-## Why Jupiter? ビルダー視点の 3 つの理由
+## Why Jupiter? ビルダー視点の 3 つの強み
 
 <div class="grid grid-cols-3 gap-4 mt-6">
   <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
-    <p class="text-5xl font-semibold text-lime-200 mb-4">01</p>
-    <p class="text-2xl font-semibold mb-3">流動性の集約</p>
+    <p class="mb-3"><span class="why-num">01</span><span class="why-title">流動性の集約</span></p>
     <ul class="text-lg">
-      <li>Metis / JupiterZ / DFlow / OKX の 4 ルーターが競合</li>
-      <li>1 API コールで最良レートを自動選択</li>
-      <li>Split `order` / `execute` でリアルタイム流動性を取得</li>
+      <li>Metis / JupiterZ / DFlow / OKX など複数ルーターを 1 つの API で扱える</li>
+      <li>最良レート探索と route selection を自前実装しなくてよい</li>
+      <li>Swap 以外にも Trigger / Recurring / Lend / Price / Tokens が揃っている</li>
     </ul>
   </div>
   <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
-    <p class="text-5xl font-semibold text-lime-200 mb-4">02</p>
-    <p class="text-2xl font-semibold mb-3">API の圧倒的な使いやすさ</p>
+    <p class="mb-3"><span class="why-num">02</span><span class="why-title">実装しやすい API</span></p>
     <ul class="text-lg">
-      <li>RESTful 設計: `GET /order` → `POST /execute` の 2 ステップ</li>
-      <li>条件次第でガスレス対応</li>
-      <li>TypeScript / Python SDK で即日統合可能</li>
+      <li>Ultra Swap は <code>GET /order</code> → 署名 → <code>POST /execute</code> の明快な流れ</li>
+      <li><code>x-api-key</code> を前提に REST で統一されている</li>
+      <li>ハッカソンで必要な「まず動かす」までが速い</li>
     </ul>
   </div>
   <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
-    <p class="text-5xl font-semibold text-lime-200 mb-4">03</p>
-    <p class="text-2xl font-semibold mb-3">Agent Skills との相性</p>
+    <p class="mb-3"><span class="why-num">03</span><span class="why-title">Agent Skills と相性が良い</span></p>
     <ul class="text-lg">
-      <li>`SKILL.md` で API 仕様を AI 向けにパッケージング</li>
-      <li>自然言語の intent を構造化パラメータへ変換</li>
-      <li>ハッカソンで数時間以内に動くものを作りやすい</li>
+      <li>API 選定、認証、gotchas、retry 方針をまとめて agent に渡せる</li>
+      <li>ドキュメントを毎回読み直さずに統合コードを書き始められる</li>
+      <li>実装スピードと正確性を同時に上げやすい</li>
     </ul>
   </div>
 </div>
 
 ---
 
-<!-- _class: section-divider -->
 <!-- header: "" -->
+<!-- _class: section-divider -->
 
 # SECTION 2
 
-## DeFi の課題解決と Agent Skills アーキテクチャ
-
-<p class="mt-10 text-2xl text-gray-300">10 min</p>
+## Jupiter Agent Skills とは
 
 ---
-
-<!-- _class: architecture-slide -->
 <!-- header: Section 2 -->
 
-## Agent Skills の仕組み: `SKILL.md` が AI と API をつなぐ
+<div class="grid grid-cols-2 gap-x-10 items-center mt-4">
 
-<img src="./assets/agent-skills-architecture.svg" alt="Agent skills architecture" class="diagram" />
+<div>
 
-<div class="card-grid-3">
-  <div class="glass-card">
-    <div class="kicker">SKILL.md に含まれる情報</div>
-    <h4>接続の前提</h4>
-    <p>エンドポイント一覧 / 認証方法（<code>x-api-key</code>）</p>
-  </div>
-  <div class="glass-card">
-    <div class="kicker">Failure Handling</div>
-    <h4>落とし穴の先回り</h4>
-    <p>エラーコード対応表 / Gotchas（罠）</p>
-  </div>
-  <div class="glass-card">
-    <div class="kicker">Execution</div>
-    <h4>実装ガイド</h4>
-    <p>リトライ戦略 / コード例</p>
-  </div>
+> Skills for AI coding agents to integrate with the Jupiter ecosystem.
+
+基本的にはcoding agentがJupiter APIのintegrationをしやすくするためのskillで、4つの`SKILL.md`からなる
+
 </div>
+
+<div class="flex justify-center">
+
+<img src="https://pbs.twimg.com/card_img/2044061695774208003/Gv-s2OKo?format=jpg&name=medium" class="rounded-xl" style="max-height: 380px; object-fit: contain;" />
+
+</div>
+
+</div>
+
+<!-- 基本的にはこれ単体でopenclawに入れれば何でも動く、みたいなskillではなくこのskillをClaude CodeやCodexなどに与えて使用するイメージ-->
 
 ---
 
-<!-- _class: section-divider -->
+- `integrate-jupiter`
+  - jupiter apiのintegrationに関する一般的なskill
+- `jupiter-lend`
+  - lending機能のintegrateに特に特化したskill
+- `jupiter-swap-migration`
+  - 既存実装をJupiter Swap V2 APIにmigrateするためのskill
+- `jupiter-vrfd`
+  - Jupiter Token Verificationを扱うためのskill
+
+ <!--Jupiter Token Verificationは何かDex Paidみたいな感じで1000JUPでtokenの認証ができるサービス  -->
+
+---
+
+
 <!-- header: "" -->
+<!-- _class: section-divider -->
 
 # SECTION 3
 
-## 【ハンズオン】ハッカソンですぐ使える最小実装
+## デモ
 
-<p class="mt-10 text-2xl text-gray-300">20 min — Ultra Swap / DCA / Lend</p>
-
----
-
-<!-- _class: code-triple -->
-<!-- header: Section 3 -->
-
-## Ultra Swap 最小構成: 3 ステップで動かす
-
-<div class="note-banner">署名後の TTL は約 2 分。同じ <code>requestId</code> + <code>signedTransaction</code> なら冪等に再送できます。</div>
-
-### Step 1
-#### クォート取得
-```ts
-const res = await fetch(
-  `${BASE}/swap/v2/order?` +
-  `inputMint=${SOL}&` +
-  `outputMint=${USDC}&` +
-  `amount=1000000000&` +
-  `taker=${wallet.publicKey}`,
-  { headers }
-);
-const { transaction, requestId } =
-  await res.json();
-```
-
-### Step 2
-#### 署名
-```ts
-const tx = VersionedTransaction
-  .deserialize(
-    Buffer.from(transaction, "base64")
-  );
-tx.sign([wallet]);
-const signed = Buffer
-  .from(tx.serialize())
-  .toString("base64");
-```
-
-### Step 3
-#### 実行
-```ts
-const result = await fetch(
-  `${BASE}/swap/v2/execute`,
-  {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      signedTransaction: signed,
-      requestId
-    })
-  }
-);
-```
+<!-- 実際にCursor, Claudeなどのcoding agentを使ってjupiterでswapなどを実行するscriptを書いてもらい実行する -->
 
 ---
 
-<!-- _class: code-double -->
-<!-- header: Section 3 -->
-
-## 拡張ユースケース: DCA 自動化 & Lend（貸借）
-
-<div class="note-banner"><span class="emoji-label"><span>🔑</span><span><code>x-api-key</code> ヘッダーは全エンドポイント必須。<code>portal.jup.ag</code> で API キーを取得します。</span></span></div>
-
-### <span class="emoji-label"><span>📅</span><span>Recurring（DCA: 毎日 / 毎週の積立）</span></span>
-```json
-{
-  "user": "<wallet>",
-  "inputMint": "USDC_MINT",
-  "outputMint": "SOL_MINT",
-  "inAmount": "100000000",
-  "inAmountPerCycle": "10000000",
-  "cycleSecondsApart": 86400,
-  "numberOfTrades": 10,
-  "startAt": null
-}
-```
-<div class="note-banner">Trigger も同様に <code>POST /trigger/v1/createOrder</code> で価格条件を登録します。</div>
-
-### <span class="emoji-label"><span>🏦</span><span>Lend（Fluid Protocol — 預け入れ）</span></span>
-```txt
-GET  /lend/v1/markets
-POST /lend/v1/deposit
-{
-  "wallet": "<wallet>",
-  "mint": "USDC_MINT",
-  "amount": "1000000000"
-}
-GET /lend/v1/positions?wallet=<wallet>
-POST /lend/v1/borrow
-```
-<div class="note-banner">APY はマーケットにより変動。担保率と清算リスクを前提に UI を設計します。</div>
-
----
-
-<!-- _class: section-divider -->
 <!-- header: "" -->
+<!-- _class: section-divider -->
 
 # SECTION 4
 
-## ハッカソンを勝ち抜くためのエラーハンドリング & Gotchas
+## 最小実装ハンズオン
 
-<p class="mt-10 text-2xl text-gray-300">10 min — 陥りやすい罠とリトライ戦略</p>
-
----
-
-<!-- _class: gotchas-slide -->
-<!-- header: Section 4 -->
-
-## Gotchas（陥りやすい罠）& エラーコード対応表
-
-<div class="card-grid-2">
-  <div class="glass-card">
-    <h4><span class="emoji-label"><span>⚠</span><span>Gotchas（罠リスト）</span></span></h4>
-    <ul>
-      <li>TTL: 署名済み Tx は約 2 分で失効。切れたら再クォート。</li>
-      <li>冪等性: 同じ <code>requestId</code> + signedTx なら 2 分以内は再送可。</li>
-      <li>Rate Limit: 基本は 50 req / 10 s。<code>Retry-After</code> を確認。</li>
-      <li>署名エラー <code>-1003</code>: 全必要署名者が揃っているか確認。</li>
-      <li><code>/build</code> と <code>/execute</code> の混用は不可。</li>
-      <li>payer 指定時はルートが Metis に限定される。</li>
-    </ul>
-  </div>
-  <div class="glass-card">
-    <h4><span class="emoji-label"><span>🔴</span><span>主要エラーコードと対処</span></span></h4>
-    <table class="compact-table tiny-table">
-      <thead>
-        <tr><th>コード</th><th>分類</th><th>対処法</th><th>Retry</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>-1</td><td>オーダー失効</td><td>再クォート</td><td>✓</td></tr>
-        <tr><td>-1000</td><td>ランディング失敗</td><td>パラメータ調整で再試行</td><td>✓</td></tr>
-        <tr><td>-1001</td><td>不明エラー</td><td>指数バックオフで再試行</td><td>✓</td></tr>
-        <tr><td>-1003</td><td>署名不足</td><td>全署名者を確認</td><td>✗</td></tr>
-        <tr><td>-1004</td><td>Blockhash 失効</td><td>再クォート</td><td>✓</td></tr>
-        <tr><td>-2003</td><td>クォート失効</td><td>再クォート</td><td>✓</td></tr>
-        <tr><td>429</td><td>Rate Limit 超過</td><td><code>Retry-After</code> 後に再試行</td><td>✓</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<!-- 実際に受講者が手を動かして実装するsection -->
+<!-- Openclawのworkspaceを作るのがいいかな、swap, lendとかできて、DCAの自動化もOpenclawでやるみたいな -->
 
 ---
 
-<!-- _class: retry-slide -->
 <!-- header: Section 4 -->
 
-## リトライ戦略 & ミニマム本番投入チェックリスト
+## Setup
 
-### 指数バックオフ + ジッター（実装例）
-```ts
-async function withRetry(fn, maxAttempts = 3) {
-  for (let i = 0; i < maxAttempts; i += 1) {
-    try {
-      return await fn();
-    } catch (err) {
-      const retryable = [
-        -1, -1000, -1001, -1004,
-        -2000, -2001, -2003, 429
-      ].includes(err.code);
-      if (!retryable || i === maxAttempts - 1) throw err;
-      const base = Math.pow(2, i) * 1000;
-      const jitter = Math.random() * 1000;
-      await sleep(base + jitter);
-      if ([-1, -1004, -2003].includes(err.code)) await reQuote();
+<!-- ここは無料クレジット対象のkeyがその場で配られるかも -->
+1. [portal.jup.ag](https://portal.jup.ag)にアクセスしAPI keyを取得
+
+```bash
+export JUPITER_API_KEY="your api key"
+```
+などで環境変数に値をset
+
+---
+
+## OpenClawにagentを追加
+
+```bash
+openclaw agents add jupiter-test-agent \
+          --workspace ./examples/openclaw \
+          --model openai-codex/gpt-5.4 \
+          --non-interactive
+```
+
+---
+
+## OpenClawをworkspace内で起動
+
+```bash
+cd ./examples/openclaw
+
+openclaw tui
+```
+
+---
+
+## OpenClaw経由でswapを実行する
+
+Prompt:
+
+```text
+Jupiter demo wallet の address と SOL / USDC balance を確認して。
+秘密鍵や .env.keys は表示しないで。
+```
+
+Command:
+
+```bash
+deno task wallet
+```
+
+---
+
+## Swap: orderを取得する
+
+Prompt:
+
+```text
+0.001 SOL を USDC に swap する order を取得して。
+まだ署名・送信はしないで。
+```
+
+Command:
+
+```bash
+deno task swap
+```
+
+Execute:
+
+```bash
+deno task swap:execute
+```
+
+---
+
+## Lend: Earn deposit transactionを取得する
+
+Prompt:
+
+```text
+1 USDC を Jupiter Earn に deposit する transaction を取得して。
+実行前に wallet と amount を確認して。
+```
+
+Command:
+
+```bash
+deno task lend
+```
+
+Execute:
+
+```bash
+deno task lend:execute
+```
+
+---
+
+## DCA / Recurring orderを作る
+
+Prompt:
+
+```text
+104 USDC を SOL に、2回・1日間隔で買う recurring order transaction を作って。
+Jupiter Recurring の minimum を満たしているか説明して。
+```
+
+Command:
+
+```bash
+deno task dca
+```
+
+Execute:
+
+```bash
+deno task dca:execute
+```
+
+---
+
+<!-- header: "" -->
+<!-- _class: section-divider -->
+
+# SECTION 5
+
+## 実務的な注意点 / Advanced Topics
+
+---
+
+<!-- header: Section 5 -->
+
+1. 秘密鍵の扱い
+2. Error Handling
+3. Latency and Server Locations
+
+---
+
+## 秘密鍵の扱い
+
+- `.env`などのファイルに書くと最近のAIはgitignoreしたりしても結構中身を普通に読んでくる
+- `dotenvx`で暗号化して保存し実行時に復号化
+- `cli.json`などでpermissionを設定
+  - ```json
+    "deny": [
+          "Bash(dotenvx get *)",
+          "Bash(dotenvx decrypt *)",
+          "Read(.env.keys)",
+          "Read(/**/.env.keys)",
+          "Write(.env.keys)",
+          "Write(/**/.env.keys)"
+        ]
+    ```
+
+---
+
+## Error Handling: よくある罠
+
+<style scoped>
+table { font-size: 0.52em; line-height: 1.3; }
+td, th { padding: 0.3rem 0.45rem; }
+</style>
+
+<table>
+  <thead>
+    <tr><th>罠</th><th>説明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>TTL（有効期限）</td><td>署名済みTxは約2分で失効 → 再クォート必須</td></tr>
+    <tr><td>冪等性</td><td>同じ <code>requestId</code> + <code>signedTx</code> で2分以内なら再送可</td></tr>
+    <tr><td>Rate Limit</td><td>50 req / 10s 基本。<code>Retry-After</code> ヘッダーを必ず確認</td></tr>
+    <tr><td>署名エラー(-1003)</td><td>全必要署名者が揃っているか確認</td></tr>
+    <tr><td>/build と /execute 混用</td><td>/build の Tx は自前RPC経由のみ。/execute に渡すと失敗</td></tr>
+    <tr><td>payer 指定時</td><td>ルートが Metis のみに限定（JupiterZ / DFlow 除外）</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Error Handling: エラーコード対応表
+
+<style scoped>
+table { font-size: 0.52em; line-height: 1.3; }
+td, th { padding: 0.3rem 0.45rem; }
+</style>
+
+<table>
+  <thead>
+    <tr><th>Code</th><th>分類</th><th>対処法</th><th>Retry</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>-1</code></td><td>オーダー失効</td><td>再クォート</td><td>✓</td></tr>
+    <tr><td><code>-1000</code></td><td>ランディング失敗</td><td>パラメータ調整して再試行</td><td>✓</td></tr>
+    <tr><td><code>-1001</code></td><td>不明エラー</td><td>指数バックオフで再試行</td><td>✓</td></tr>
+    <tr><td><code>-1003</code></td><td>署名不足</td><td>全署名者を確認</td><td>✗</td></tr>
+    <tr><td><code>-1004</code></td><td>Blockhash失効</td><td>再クォート（TTL切れ）</td><td>✓</td></tr>
+    <tr><td><code>-2003</code></td><td>クォート失効(RFQ)</td><td>再クォート</td><td>✓</td></tr>
+    <tr><td><code>429</code></td><td>Rate Limit超過</td><td><code>Retry-After</code> 後に再試行</td><td>✓</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Error Handling: リトライ戦略
+
+<style scoped>
+pre { font-size: 0.52em; }
+</style>
+
+```javascript
+async function withRetry(fn, max = 3) {
+  for (let i = 0; i < max; i++) {
+    try { return await fn(); }
+    catch (err) {
+      const retry = [-1, -1000, -1001,
+        -1004, -2003, 429].includes(err.code);
+      if (!retry || i === max - 1) throw err;
+      const ms = 2 ** i * 1000 + Math.random() * 1000;
+      await sleep(ms);
+      if ([-1, -1004, -2003].includes(err.code))
+        await reQuote();
     }
   }
 }
 ```
-<div class="note-banner">タイムアウト設定: クォート 5 秒 / 実行 30 秒 / 全体 60 秒</div>
 
-<div class="glass-card">
-  <h4><span class="emoji-label"><span>✅</span><span>ミニマム本番投入チェックリスト</span></span></h4>
-  <ul>
-    <li>API キー検証: 起動時に <code>x-api-key</code> 未設定なら即 fail fast</li>
-    <li>タイムアウト設定: 全 <code>fetch</code> に <code>AbortController</code> を追加</li>
-    <li>リトライ分類: retryable / non-retryable をエラーコードで判定</li>
-    <li><code>requestId</code> ロギング: 全 API コールで requestId + status を残す</li>
-    <li>冪等性の確認: 再送前に同 Tx が確定していないか確認</li>
-    <li>Slippage 上限設定: アプリ設定から最大値を強制</li>
-    <li>残高・アドレス検証: 実行前に mint アドレスと残高を検証</li>
-  </ul>
+<div class="note-banner">
+
+**タイムアウト目安**: クォート 5s / 実行 30s / 合計オペレーション 60s
+
+</div>
+
+---
+
+## Error Handling: 本番投入チェックリスト
+
+<style scoped>
+table { font-size: 0.58em; line-height: 1.4; }
+td, th { padding: 0.35rem 0.5rem; }
+</style>
+
+<table>
+  <thead>
+    <tr><th></th><th>項目</th><th>内容</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>✓</td><td><strong>APIキー検証</strong></td><td>起動時に <code>x-api-key</code> 未設定なら即 Fail Fast</td></tr>
+    <tr><td>✓</td><td><strong>タイムアウト設定</strong></td><td>全 fetch 呼び出しに <code>AbortController</code> を追加</td></tr>
+    <tr><td>✓</td><td><strong>リトライ対象の分類</strong></td><td>retryable / non-retryable をエラーコードで判定</td></tr>
+    <tr><td>✓</td><td><strong>requestId のロギング</strong></td><td>全APIコールの requestId + status をログに記録</td></tr>
+    <tr><td>✓</td><td><strong>冪等性の確認</strong></td><td>再送前に同Txが確定していないかチェック</td></tr>
+    <tr><td>✓</td><td><strong>Slippage 上限設定</strong></td><td>アプリ設定から最大スリッページを強制</td></tr>
+    <tr><td>✓</td><td><strong>残高・アドレス検証</strong></td><td>実行前に mint アドレスと残高を確認</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Latency and Server Locations
+
+- **Asia-Pacific**: Singapore (ap-southeast-1) or Tokyo (ap-northeast-1)
+- **Europe**: Frankfurt (eu-central-1)
+- **Americas**: Virginia (us-east-1), Oregon (us-west-2), or São Paulo (sa-east-1)
+
+---
+
+<!-- header: "" -->
+
+<div class="text-center">
+
+# Thank You For Listening
+
 </div>
 
 ---
 
 <!-- header: Closing -->
 
-## Q&A・クロージング
+## 参考資料
 
-<div class="resource-grid">
-  <div class="resource-card">
-    <h4><span class="emoji-label"><span>💬</span><span>質疑応答</span></span></h4>
-    <ul>
-      <li>Jupiter API 全般</li>
-      <li>Agent Skills 実装</li>
-      <li>ハッカソンアイデア相談</li>
-      <li>エラーデバッグ支援</li>
-    </ul>
-  </div>
-  <div class="resource-card">
-    <h4><span class="emoji-label"><span>🔗</span><span>リソース</span></span></h4>
-    <ul>
-      <li><code>dev.jup.ag</code> 公式ドキュメント</li>
-      <li><code>portal.jup.ag</code> API キー取得</li>
-      <li><code>github.com/jup-ag/agent-skills</code></li>
-      <li><code>discord.gg/jupiter</code></li>
-    </ul>
-  </div>
-  <div class="resource-card">
-    <h4><span class="emoji-label"><span>🚀</span><span>Clawathon Tokyo</span></span></h4>
-    <ul>
-      <li>テーマ: AI × DeFi</li>
-      <li>Jupiter スポンサー賞あり</li>
-      <li>SuzuPay コラボトラック</li>
-      <li>詳細はアンケートで通知</li>
-    </ul>
-  </div>
-</div>
-
-<div class="closing-note">
-  <p><span class="emoji-label"><span>🙏</span><span>ご参加ありがとうございました</span></span></p>
-  <p>Build something amazing on Jupiter!</p>
-</div>
+- [Jupiter Developers Docs](https://dev.jup.ag)
+- [Jupiter Portal](https://portal.jup.ag)
+- [Jupiter Status](https://status.jup.ag)
+- [jup-ag/agent-skills](https://github.com/jup-ag/agent-skills)
+- [Swap API Docs](https://developers.jup.ag/docs/swap/index.md)
+- [Lend Docs](https://developers.jup.ag/docs/lend/index.md)
+- [Recurring Docs](https://developers.jup.ag/docs/recurring/index.md)
