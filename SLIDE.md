@@ -133,7 +133,7 @@ footer: '© Jupiter × SuzuPay  |  Clawathon Tokyo Edition'
 
 <div class="flex justify-center">
 
-<img src="https://pbs.twimg.com/card_img/2044061695774208003/Gv-s2OKo?format=jpg&name=medium" class="rounded-xl" style="max-height: 380px; object-fit: contain;" />
+<img src="https://opengraph.githubassets.com/1/jup-ag/agent-skills" class="rounded-xl" style="max-height: 380px; object-fit: contain;" />
 
 </div>
 
