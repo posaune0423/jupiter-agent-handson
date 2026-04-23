@@ -16,8 +16,8 @@
     "report": "dotenvx run -f .env.encrypted --strict -- deno run --allow-env --allow-net scripts/position-report.ts",
     "fmt:check": "deno fmt --check scripts src deno.json",
     "lint": "deno lint",
-    "check": "deno check scripts/*.ts src/lib/*.ts src/utils/*.ts",
-    "test": "deno test src/lib/*_test.ts src/utils/*_test.ts"
+    "check": "deno check scripts/*.ts src/commands/*.ts src/config/*.ts src/lib/jupiter/*.ts src/lib/solana/*.ts src/usecases/*/*.ts src/utils/*.ts",
+    "test": "deno test --allow-env=WS_NO_BUFFER_UTIL,WS_NO_UTF_8_VALIDATE src/lib/solana/*_test.ts src/usecases/*/*_test.ts src/utils/*_test.ts"
   },
   "imports": {
     "@solana/kit": "npm:@solana/kit@^6.8.0",

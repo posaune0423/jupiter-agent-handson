@@ -1,5 +1,5 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { parseArgs } from "./cli.ts";
+import { parseArgs } from "./args.ts";
 
 Deno.test("parseArgs supports --key value, --key=value, and boolean flags", () => {
   assertEquals(parseArgs(["--amount", "0.01", "--input=SOL", "--execute"]), {

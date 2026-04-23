@@ -177,24 +177,30 @@ footer: '© Jupiter × SuzuPay  |  Clawathon Tokyo Edition'
 
 <!-- 実際に受講者が手を動かして実装するsection -->
 <!-- Openclawのworkspaceを作るのがいいかな、swap, lendとかできて、DCAの自動化もOpenclawでやるみたいな -->
+<!-- 
+AIで開発する時代、手を動かして実装するハンズオンとかって意味ない気するな
+今回はopenclawで動かすことを目標にしよう
+ -->
 
 ---
 
 <!-- header: Section 4 -->
 
-## Setup
+## 1. Setup
 
 <!-- ここは無料クレジット対象のkeyがその場で配られるかも -->
 1. [portal.jup.ag](https://portal.jup.ag)にアクセスしAPI keyを取得
 
 ```bash
 export JUPITER_API_KEY="your api key"
+# or
+dotenvx set JUPITER_API_KEY ${your_api_key} --env-file .env.encrypted
 ```
 などで環境変数に値をset
 
 ---
 
-## OpenClawにagentを追加
+## 2. OpenClawにagentを追加
 
 ```bash
 openclaw agents add jupiter-test-agent \
@@ -205,7 +211,7 @@ openclaw agents add jupiter-test-agent \
 
 ---
 
-## OpenClawをworkspace内で起動
+## 3. OpenClawをworkspace内で起動
 
 ```bash
 cd ./examples/openclaw
@@ -215,88 +221,28 @@ openclaw tui
 
 ---
 
-## OpenClaw経由でswapを実行する
+## 4. OpenClaw経由でswapを実行する
 
-Prompt:
-
-```text
-Jupiter demo wallet の address と SOL / USDC balance を確認して。
-秘密鍵や .env.keys は表示しないで。
-```
-
-Command:
-
-```bash
-deno task wallet
+```txt
+SOLを1USDCにswapしてください
 ```
 
 ---
 
-## Swap: orderを取得する
+## 5. OpenClaw経由でlendを実行する
 
-Prompt:
-
-```text
-0.001 SOL を USDC に swap する order を取得して。
-まだ署名・送信はしないで。
-```
-
-Command:
-
-```bash
-deno task swap
-```
-
-Execute:
-
-```bash
-deno task swap:execute
+```txt
+最小額のdeposit額をlendしてください
 ```
 
 ---
 
-## Lend: Earn deposit transactionを取得する
+## 6. OpenClaw経由でscheduling orderを実行する
 
-Prompt:
+<!-- dcaは100USDCがminimum, 2回分割の50USDC / order -->
 
-```text
-1 USDC を Jupiter Earn に deposit する transaction を取得して。
-実行前に wallet と amount を確認して。
-```
-
-Command:
-
-```bash
-deno task lend
-```
-
-Execute:
-
-```bash
-deno task lend:execute
-```
-
----
-
-## DCA / Recurring orderを作る
-
-Prompt:
-
-```text
-104 USDC を SOL に、2回・1日間隔で買う recurring order transaction を作って。
-Jupiter Recurring の minimum を満たしているか説明して。
-```
-
-Command:
-
-```bash
-deno task dca
-```
-
-Execute:
-
-```bash
-deno task dca:execute
+```txt
+scheduling orderでdcaを実行してください
 ```
 
 ---
@@ -306,11 +252,13 @@ deno task dca:execute
 
 # SECTION 5
 
-## 実務的な注意点 / Advanced Topics
+## 実務上の注意点 / Advanced Topics
 
 ---
 
 <!-- header: Section 5 -->
+
+### 実務上の注意点 / Advanced Topics
 
 1. 秘密鍵の扱い
 2. Error Handling
@@ -318,7 +266,7 @@ deno task dca:execute
 
 ---
 
-## 秘密鍵の扱い
+### 1. 秘密鍵の扱い
 
 - `.env`などのファイルに書くと最近のAIはgitignoreしたりしても結構中身を普通に読んでくる
 - `dotenvx`で暗号化して保存し実行時に復号化
@@ -336,7 +284,7 @@ deno task dca:execute
 
 ---
 
-## Error Handling: よくある罠
+### 2. Error Handling
 
 <style scoped>
 table { font-size: 0.52em; line-height: 1.3; }
@@ -359,7 +307,9 @@ td, th { padding: 0.3rem 0.45rem; }
 
 ---
 
-## Error Handling: エラーコード対応表
+### 2. Error Handling
+
+エラーコード対応表
 
 <style scoped>
 table { font-size: 0.52em; line-height: 1.3; }
@@ -383,7 +333,11 @@ td, th { padding: 0.3rem 0.45rem; }
 
 ---
 
-## Error Handling: リトライ戦略
+### 2. Error Handling
+
+<!-- このwithRetryという実装はskillの中にsample codeが載っています -->
+
+リトライ戦略
 
 <style scoped>
 pre { font-size: 0.52em; }
@@ -414,7 +368,9 @@ async function withRetry(fn, max = 3) {
 
 ---
 
-## Error Handling: 本番投入チェックリスト
+### 2. Error Handling
+
+本番投入チェックリスト
 
 <style scoped>
 table { font-size: 0.58em; line-height: 1.4; }
@@ -438,7 +394,10 @@ td, th { padding: 0.35rem 0.5rem; }
 
 ---
 
-## Latency and Server Locations
+### Latency and Server Locations
+
+Jupiter APIはrpc nodeへのtxの送信まで行ってくれる便利なサービスです。
+ただし自分のアプリケーションからjupiter api serverまでの距離はdeployしているcloudやSaaSのregionによって変わってきます。
 
 - **Asia-Pacific**: Singapore (ap-southeast-1) or Tokyo (ap-northeast-1)
 - **Europe**: Frankfurt (eu-central-1)

@@ -17,8 +17,12 @@ examples/openclaw/
 ├── BOOTSTRAP.md     # 初回起動リチュアル（完了後に削除）
 ├── memory/          # daily memory ログ（memory/YYYY-MM-DD.md）
 ├── scripts/         # OpenClaw から呼ぶ Jupiter demo scripts
-├── src/lib/         # Swap / Lend / DCA / report usecase logic
-├── src/utils/       # env, signing, Jupiter fetch, amount helpers
+├── src/commands/    # CLI arg parse, output formatting, error display
+├── src/usecases/    # swap / lend / dca / wallet / report の本体
+├── src/lib/jupiter/ # Jupiter API wrapper
+├── src/lib/solana/  # wallet, signing, RPC, transaction confirm
+├── src/config/      # workshop demo defaults
+├── src/utils/       # env, args, token, amount, retry, error helpers
 ├── deno.json        # Deno プロジェクト設定
 └── .env.encrypted   # 暗号化済み環境変数
 ```

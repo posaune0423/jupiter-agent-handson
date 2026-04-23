@@ -1,13 +1,17 @@
 import {
   assertIsTransactionWithinSizeLimit,
-  createKeyPairSignerFromBytes,
-  getSignatureFromTransaction,
   getTransactionDecoder,
   getTransactionEncoder,
   type KeyPairSigner,
   signTransaction,
 } from "@solana/kit";
-import bs58 from "bs58";
+import type { DemoEnv } from "../../utils/env.ts";
+import type { DemoWallet } from "./wallet.ts";
+import {
+  type ConfirmedTransaction,
+  confirmSubmittedTransaction,
+  sendRawTransaction,
+} from "./rpc.ts";
 
 function base64ToBytes(value: string): Uint8Array {
   const binary = atob(value);
@@ -24,44 +28,40 @@ function bytesToBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
-function parsePrivateKey(privateKey: string): Uint8Array {
-  const trimmed = privateKey.trim();
-  if (trimmed.startsWith("[")) {
-    const parsed = JSON.parse(trimmed) as number[];
-    return new Uint8Array(parsed);
-  }
-  return bs58.decode(trimmed);
-}
-
-export function getWallet(privateKey: string): Promise<KeyPairSigner> {
-  return createKeyPairSignerFromBytes(parsePrivateKey(privateKey));
+function toKeyPairSigner(wallet: DemoWallet): KeyPairSigner {
+  return wallet as KeyPairSigner;
 }
 
 export async function signBase64Transaction(
   txBase64: string,
-  wallet: KeyPairSigner,
+  wallet: DemoWallet,
 ): Promise<string> {
   const transaction = getTransactionDecoder().decode(base64ToBytes(txBase64));
-  const signed = await signTransaction([wallet.keyPair], transaction);
+  const signed = await signTransaction(
+    [toKeyPairSigner(wallet).keyPair],
+    transaction,
+  );
   const signedBytes = getTransactionEncoder().encode(signed);
   return bytesToBase64(new Uint8Array(signedBytes));
 }
 
 export async function signBase64TransactionBytes(
   txBase64: string,
-  wallet: KeyPairSigner,
+  wallet: DemoWallet,
 ): Promise<Uint8Array> {
   const transaction = getTransactionDecoder().decode(base64ToBytes(txBase64));
-  const signed = await signTransaction([wallet.keyPair], transaction);
+  const signed = await signTransaction(
+    [toKeyPairSigner(wallet).keyPair],
+    transaction,
+  );
   assertIsTransactionWithinSizeLimit(signed);
   return new Uint8Array(getTransactionEncoder().encode(signed));
 }
 
-export async function getSignedTransactionSignature(
-  txBase64: string,
-  wallet: KeyPairSigner,
-): Promise<string> {
-  const transaction = getTransactionDecoder().decode(base64ToBytes(txBase64));
-  const signed = await signTransaction([wallet.keyPair], transaction);
-  return getSignatureFromTransaction(signed);
+export async function sendAndConfirmTransaction(
+  env: Pick<DemoEnv, "SOLANA_RPC_URL">,
+  signedTransaction: Uint8Array,
+): Promise<ConfirmedTransaction> {
+  const signature = await sendRawTransaction(env, signedTransaction);
+  return await confirmSubmittedTransaction(env, signature);
 }

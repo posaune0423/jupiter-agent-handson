@@ -1,23 +1,21 @@
-export interface ReportBalance {
+export interface ReportBalanceViewModel {
   symbol: string;
   mint: string;
   amount: string;
 }
 
-export interface DemoDefaults {
-  swap: string;
-  lend: string;
-  dca: string;
-}
-
-export interface PositionReport {
+export interface PositionReportViewModel {
   walletAddress: string;
   generatedAt: string;
-  balances: ReportBalance[];
-  defaults: DemoDefaults;
+  balances: ReportBalanceViewModel[];
+  defaults: {
+    swap: string;
+    lend: string;
+    dca: string;
+  };
 }
 
-export function formatPositionReport(report: PositionReport): string {
+export function formatPositionReport(report: PositionReportViewModel): string {
   const balanceRows = report.balances
     .map((balance) =>
       `| ${balance.symbol} | ${balance.amount} | \`${balance.mint}\` |`

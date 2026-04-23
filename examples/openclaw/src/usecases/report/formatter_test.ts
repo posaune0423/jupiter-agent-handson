@@ -1,7 +1,7 @@
 import { assertStringIncludes } from "@std/assert";
-import { formatPositionReport } from "./report.ts";
+import { formatPositionReport } from "./formatter.ts";
 
-Deno.test("formatPositionReport renders a markdown report with balances and demo defaults", () => {
+Deno.test("formatPositionReport renders a markdown report from PositionReportViewModel", () => {
   const report = formatPositionReport({
     walletAddress: "DemoWallet111111111111111111111111111111111",
     generatedAt: "2026-04-22T00:00:00.000Z",

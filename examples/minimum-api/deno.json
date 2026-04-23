@@ -6,9 +6,9 @@
   "minimumDependencyAge": "P7D",
   "allowScripts": false,
   "tasks": {
-    "swap": "dotenvx run -- deno run -A src/swap.ts",
-    "lend": "dotenvx run -- deno run -A src/lend.ts",
-    "dca": "dotenvx run -- deno run -A src/dca.ts"
+    "swap": "dotenvx run -f .env.encrypted --strict -- deno run --allow-env --allow-net src/swap.ts",
+    "lend": "dotenvx run -f .env.encrypted --strict -- deno run --allow-env --allow-net src/lend.ts",
+    "dca": "dotenvx run -f .env.encrypted --strict -- deno run --allow-env --allow-net src/dca.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@^1.0.19",

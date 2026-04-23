@@ -1,3 +1,5 @@
+import { ValidationError } from "./errors.ts";
+
 export type ParsedArgs = Record<string, string>;
 
 export function parseArgs(args: string[]): ParsedArgs {
@@ -6,7 +8,7 @@ export function parseArgs(args: string[]): ParsedArgs {
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];
     if (!arg.startsWith("--")) {
-      throw new Error(`Unexpected positional argument: ${arg}`);
+      throw new ValidationError(`Unexpected positional argument: ${arg}`);
     }
 
     const withoutPrefix = arg.slice(2);
@@ -15,7 +17,10 @@ export function parseArgs(args: string[]): ParsedArgs {
     const inlineValue = eqIdx === -1
       ? undefined
       : withoutPrefix.slice(eqIdx + 1);
-    if (!rawKey) throw new Error("Empty option name is not allowed");
+
+    if (!rawKey) {
+      throw new ValidationError("Empty option name is not allowed");
+    }
 
     if (inlineValue !== undefined) {
       parsed[rawKey] = inlineValue;
@@ -35,14 +40,28 @@ export function parseArgs(args: string[]): ParsedArgs {
   return parsed;
 }
 
-export function getArg(
+export function getStringArg(
   args: ParsedArgs,
   key: string,
-  defaultValue: string,
-): string {
-  return args[key] ?? defaultValue;
+): string | undefined {
+  return args[key];
 }
 
 export function getBooleanArg(args: ParsedArgs, key: string): boolean {
   return args[key] === "true";
+}
+
+export function getIntegerArg(
+  args: ParsedArgs,
+  key: string,
+): number | undefined {
+  const value = args[key];
+  if (value === undefined) return undefined;
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || !Number.isInteger(parsed)) {
+    throw new ValidationError(`--${key} must be an integer`);
+  }
+
+  return parsed;
 }
