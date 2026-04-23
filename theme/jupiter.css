@@ -119,6 +119,32 @@ section::after {
   color: var(--jupiter-text-muted);
 }
 
+footer {
+  /* Make footer span full width so the logo can align to the slide right edge. */
+  left: 78px;
+  right: 30px;
+  width: auto;
+  padding-right: 124px;
+  box-sizing: border-box;
+}
+
+footer::after {
+  /* Logo pinned to the slide right edge, independent from footer text. */
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 96px;
+  height: 28px;
+  background-image: url('./assets/jupiter-logo.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  opacity: 0.92;
+  pointer-events: none;
+}
+
 header {
   position: absolute;
   top: 52px;

@@ -20,3 +20,5 @@ examples/openclaw/MEMORY.md
 **/*.key
 **/*.pem
 **/secrets*
+
+render_check
